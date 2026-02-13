@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily GK Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #1E5BFF, #A84DFF);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .pin-format-info {
+            background: #e7f3ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #0066cc;
+            border-left: 4px solid #0066cc;
+        }
+
+        .login-section, .student-section, .teacher-section, .password-change-section, .teacher-login-section {
+            display: none;
+        }
+
+        .login-section.active, .student-section.active, .teacher-section.active, .password-change-section.active, .teacher-login-section.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="text"], input[type="password"], input[type="tel"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .secondary-btn {
+            background: #6c757d;
+            margin-top: 10px;
+        }
+
+        .warning-btn {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .question-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .answer-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .answer-box h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+
+        .student-answer {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .student-answer strong {
+            color: #667eea;
+        }
+
+        .date-info {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-mode {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .toggle-mode a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toggle-mode a:hover {
+            text-decoration: underline;
+        }
+
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-msg {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .warning-msg {
+            background: #fff3cd;
+            color: #856404;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ffeeba;
+        }
+
+        .timer-info {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Student Login Section -->
+        <div class="login-section active" id="loginSection">
+            <h1>📚 Daily GK Quiz</h1>
+            <h2>Student Login</h2>
+            <p class="subtitle">Managed by Teja Pratap</p>
+
+            <div class="pin-format-info">
+                <strong>📌 PIN Format:</strong> YYYYY-BB-XXX<br>
+                <small>Example: 25007-CS-123</small>
+            </div>
+
+            <div class="input-group">
+                <label>Student Name:</label>
+                <input type="text" id="studentName" placeholder="Enter your full name">
+            </div>
+
+            <div class="input-group">
+                <label>Student PIN:</label>
+                <input type="text" id="loginPin" placeholder="Enter your PIN (e.g., 25007-CS-123)">
+            </div>
+
+            <button onclick="studentLogin()">Login</button>
+
+            <div class="toggle-mode">
+                <p>Teacher? <a onclick="showTeacherLogin()">Login here</a></p>
+            </div>
+        </div>
+
+        <!-- Teacher Login Section -->
+        <div class="teacher-login-section" id="teacherLoginSection">
+            <h1>📚 Daily GK Quiz</h1>
+            <h2>Teacher Login</h2>
+            <p class="subtitle">Welcome, Teja Pratap</p>
+
+            <div class="input-group">
+                <label>Password:</label>
+                <input type="password" id="teacherPassword" placeholder="Enter password">
+            </div>
+
+            <button onclick="teacherLogin()">Login</button>
+
+            <div class="toggle-mode">
+                <p>Student? <a onclick="showStudentLogin()">Login here</a></p>
+            </div>
+        </div>
+
+        <!-- Student Section -->
+        <div class="student-section" id="studentSection">
+            <h1>📚 Daily GK Quiz</h1>
+            <h2>Student Dashboard</h2>
+            <div class="subtitle">
+                <strong id="studentDisplayName"></strong><br>
+                <span id="studentRollNumber"></span>
+            </div>
+            
+            <div id="studentContent"></div>
+            
+            <button class="secondary-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Teacher Section -->
+        <div class="teacher-section" id="teacherSection">
+            <h1>📚 Daily GK Quiz</h1>
+            <h2>Teacher Dashboard</h2>
+            <p class="subtitle">Welcome, Teja Pratap</p>
+            
+            <div class="input-group">
+                <label>Today's Question:</label>
+                <textarea id="newQuestion" placeholder="Enter today's GK question..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Yesterday's Answer (Optional):</label>
+                <textarea id="yesterdayAnswer" placeholder="Enter the answer to yesterday's question..."></textarea>
+            </div>
+
+            <button onclick="postQuestion()">Post Question & Answer</button>
+            
+            <hr style="margin: 30px 0; border: none; border-top: 2px solid #f0f0f0;">
+            
+            <h3 style="color: #667eea; margin-bottom: 15px;">Student Responses</h3>
+            <div id="teacherContent"></div>
+            
+            <button class="warning-btn" onclick="showPasswordChange()">Change Password</button>
+            <button class="secondary-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Password Change Section -->
+        <div class="password-change-section" id="passwordChangeSection">
+            <h1>🔒 Change Password</h1>
+            <h2>Teacher: Teja Pratap</h2>
+
+            <div class="input-group">
+                <label>Current Password:</label>
+                <input type="password" id="currentPassword" placeholder="Enter current password">
+            </div>
+
+            <div class="input-group">
+                <label>New Password:</label>
+                <input type="password" id="newPassword" placeholder="Enter new password">
+            </div>
+
+            <div class="input-group">
+                <label>Confirm New Password:</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm new password">
+            </div>
+
+            <button onclick="changePassword()">Change Password</button>
+            
+            <button class="secondary-btn" onclick="cancelPasswordChange()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Load data from localStorage
+        let questions = JSON.parse(localStorage.getItem('questions')) || [];
+        let studentAnswers = JSON.parse(localStorage.getItem('studentAnswers')) || [];
+        let answerTimestamps = JSON.parse(localStorage.getItem('answerTimestamps')) || {};
+        let teacherPassword = localStorage.getItem('teacherPassword') || 'SATHWIK.123';
+        let currentStudent = null;
+        let currentStudentName = null;
+
+        // PIN validation
+        function validatePin(pin) {
+            const pattern = /^(25007|24007|23007|26007|27007|28007|29007|30007)-(CS|EE|EI|CE|ME)-\d{3}$/;
+            return pattern.test(pin);
+        }
+
+        // Student OTP Functions
+        function studentLogin() {
+            const name = document.getElementById('studentName').value.trim();
+            const pin = document.getElementById('loginPin').value.trim().toUpperCase();
+
+            if (!name) {
+                alert('Please enter your name!');
+                return;
+            }
+
+            if (!pin) {
+                alert('Please enter your PIN!');
+                return;
+            }
+
+            if (!validatePin(pin)) {
+                alert('Invalid PIN format!\n\nCorrect format: YYYYY-BB-XXX\n\nWhere:\n• YYYYY = 25007, 24007, 23007, 26007, 27007, 28007, 29007, or 30007\n• BB = CS, EE, EI, CE, or ME\n• XXX = 3 digits (000-999)\n\nExample: 25007-CS-123');
+                return;
+            }
+
+            // Log in student directly
+            currentStudent = pin;
+            currentStudentName = name;
+            document.getElementById('studentDisplayName').textContent = name;
+            document.getElementById('studentRollNumber').textContent = 'PIN: ' + pin;
+
+            document.getElementById('loginSection').classList.remove('active');
+            document.getElementById('studentSection').classList.add('active');
+
+            displayStudentView();
+        }
+
+        function teacherLogin() {
+            const password = document.getElementById('teacherPassword').value;
+
+            if (!password) {
+                alert('Please enter your password!');
+                return;
+            }
+
+            if (password !== teacherPassword) {
+                alert('Incorrect password!');
+                return;
+            }
+
+            // Password verified, log in teacher
+            document.getElementById('teacherLoginSection').classList.remove('active');
+            document.getElementById('teacherSection').classList.add('active');
+            displayTeacherView();
+        }
+
+        function showTeacherLogin() {
+            document.getElementById('loginSection').classList.remove('active');
+            document.getElementById('teacherLoginSection').classList.add('active');
+        }
+
+        function showStudentLogin() {
+            document.getElementById('teacherLoginSection').classList.remove('active');
+            document.getElementById('loginSection').classList.add('active');
+        }
+
+        function showPasswordChange() {
+            document.getElementById('teacherSection').classList.remove('active');
+            document.getElementById('passwordChangeSection').classList.add('active');
+        }
+
+        function cancelPasswordChange() {
+            document.getElementById('passwordChangeSection').classList.remove('active');
+            document.getElementById('teacherSection').classList.add('active');
+            
+            // Reset fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function changePassword() {
+            const currentPwd = document.getElementById('currentPassword').value;
+            const newPwd = document.getElementById('newPassword').value;
+            const confirmPwd = document.getElementById('confirmPassword').value;
+
+            if (currentPwd !== teacherPassword) {
+                alert('Current password is incorrect!');
+                return;
+            }
+
+            if (!newPwd || newPwd.length < 6) {
+                alert('New password must be at least 6 characters long!');
+                return;
+            }
+
+            if (newPwd !== confirmPwd) {
+                alert('New passwords do not match!');
+                return;
+            }
+
+            teacherPassword = newPwd;
+            localStorage.setItem('teacherPassword', teacherPassword);
+
+            alert('Password changed successfully!');
+            cancelPasswordChange();
+        }
+
+        function logout() {
+            currentStudent = null;
+            currentStudentName = null;
+            
+            document.getElementById('studentSection').classList.remove('active');
+            document.getElementById('teacherSection').classList.remove('active');
+            document.getElementById('passwordChangeSection').classList.remove('active');
+            document.getElementById('loginSection').classList.add('active');
+            
+            // Reset all input fields
+            document.getElementById('studentName').value = '';
+            document.getElementById('loginPin').value = '';
+            document.getElementById('teacherPassword').value = '';
+        }
+
+        // Time restriction functions
+        function canSubmitAnswer(studentPin, questionId) {
+            const key = studentPin + '_' + questionId;
+            const lastSubmission = answerTimestamps[key];
+            
+            if (!lastSubmission) {
+                return { canSubmit: true };
+            }
+            
+            const sixHours = 6 * 60 * 60 * 1000;
+            const timePassed = Date.now() - lastSubmission;
+            
+            if (timePassed >= sixHours) {
+                return { canSubmit: true };
+            }
+            
+            const remainingMs = sixHours - timePassed;
+            const hours = Math.floor(remainingMs / (60 * 60 * 1000));
+            const minutes = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000));
+            
+            return {
+                canSubmit: false,
+                remainingTime: { hours, minutes }
+            };
+        }
+
+        function cleanupOldAnswers() {
+            const sevenDays = 7 * 24 * 60 * 60 * 1000;
+            const now = Date.now();
+            
+            studentAnswers = studentAnswers.filter(answer => {
+                if (!answer.timestamp) return true;
+                return (now - answer.timestamp) < sevenDays;
+            });
+            
+            localStorage.setItem('studentAnswers', JSON.stringify(studentAnswers));
+        }
+
+        function postQuestion() {
+            const questionText = document.getElementById('newQuestion').value.trim();
+            const answerText = document.getElementById('yesterdayAnswer').value.trim();
+            
+            if (!questionText) {
+                alert('Please enter a question!');
+                return;
+            }
+
+            if (answerText && questions.length > 0) {
+                questions[questions.length - 1].answer = answerText;
+            }
+            
+            questions.push({
+                id: Date.now(),
+                question: questionText,
+                date: new Date().toLocaleDateString(),
+                answer: null
+            });
+            
+            localStorage.setItem('questions', JSON.stringify(questions));
+            
+            document.getElementById('newQuestion').value = '';
+            document.getElementById('yesterdayAnswer').value = '';
+            
+            alert('Question posted successfully!');
+            displayTeacherView();
+        }
+
+        function submitAnswer(questionId) {
+            const answerInput = document.getElementById('answer-' + questionId);
+            const answerText = answerInput.value.trim();
+            
+            if (!answerText) {
+                alert('Please write an answer!');
+                return;
+            }
+            
+            const timeCheck = canSubmitAnswer(currentStudent, questionId);
+            
+            if (!timeCheck.canSubmit) {
+                alert('You can only submit one answer every 6 hours!\n\nPlease wait ' + 
+                      timeCheck.remainingTime.hours + ' hours and ' + 
+                      timeCheck.remainingTime.minutes + ' minutes before submitting again.');
+                return;
+            }
+            
+            const key = currentStudent + '_' + questionId;
+            answerTimestamps[key] = Date.now();
+            localStorage.setItem('answerTimestamps', JSON.stringify(answerTimestamps));
+            
+            studentAnswers.push({
+                questionId: questionId,
+                studentPin: currentStudent,
+                studentName: currentStudentName,
+                answer: answerText,
+                date: new Date().toLocaleString(),
+                timestamp: Date.now()
+            });
+            
+            localStorage.setItem('studentAnswers', JSON.stringify(studentAnswers));
+            
+            alert('Answer submitted successfully!\n\nYou can submit your next answer in 6 hours.');
+            displayStudentView();
+        }
+
+        function displayStudentView() {
+            cleanupOldAnswers();
+            
+            const content = document.getElementById('studentContent');
+            
+            if (questions.length === 0) {
+                content.innerHTML = '<p class="date-info">No questions available yet. Check back tomorrow!</p>';
+                return;
+            }
+            
+            let html = '';
+            
+            const latestQuestion = questions[questions.length - 1];
+            const hasAnswered = studentAnswers.some(a => 
+                a.questionId === latestQuestion.id && a.studentPin === currentStudent
+            );
+            
+            const timeCheck = canSubmitAnswer(currentStudent, latestQuestion.id);
+            
+            html += '<div class="question-box">';
+            html += '<div class="date-info">📅 ' + latestQuestion.date + '</div>';
+            html += '<h3>Today\'s Question:</h3>';
+            html += '<p>' + latestQuestion.question + '</p>';
+            
+            if (hasAnswered) {
+                const myAnswer = studentAnswers.find(a => 
+                    a.questionId === latestQuestion.id && a.studentPin === currentStudent
+                );
+                html += '<div class="success-msg">✓ You answered on: ' + myAnswer.date + '<br><strong>Your answer:</strong> ' + myAnswer.answer + '</div>';
+                
+                if (!timeCheck.canSubmit) {
+                    html += '<div class="warning-msg">⏱ You can submit a new answer in ' + 
+                            timeCheck.remainingTime.hours + ' hours and ' + 
+                            timeCheck.remainingTime.minutes + ' minutes.</div>';
+                }
+            } else {
+                if (timeCheck.canSubmit) {
+                    html += '<div class="input-group" style="margin-top: 15px;">';
+                    html += '<label>Your Answer:</label>';
+                    html += '<textarea id="answer-' + latestQuestion.id + '" placeholder="Type your answer here..."></textarea>';
+                    html += '</div>';
+                    html += '<button onclick="submitAnswer(' + latestQuestion.id + ')">Submit Answer</button>';
+                    html += '<div class="timer-info">⏱ After submitting, you can answer again after 6 hours.</div>';
+                } else {
+                    html += '<div class="warning-msg">⏱ You submitted an answer recently. You can submit again in ' + 
+                            timeCheck.remainingTime.hours + ' hours and ' + 
+                            timeCheck.remainingTime.minutes + ' minutes.</div>';
+                }
+            }
+            
+            html += '</div>';
+            
+            if (questions.length > 1) {
+                const previousQuestion = questions[questions.length - 2];
+                if (previousQuestion.answer) {
+                    html += '<div class="answer-box">';
+                    html += '<div class="date-info">📅 ' + previousQuestion.date + '</div>';
+                    html += '<h4>Previous Question:</h4>';
+                    html += '<p style="margin-bottom: 10px;">' + previousQuestion.question + '</p>';
+                    html += '<h4>✓ Answer:</h4>';
+                    html += '<p>' + previousQuestion.answer + '</p>';
+                    html += '</div>';
+                }
+            }
+            
+            content.innerHTML = html;
+        }
+
+        function displayTeacherView() {
+            cleanupOldAnswers();
+            
+            const content = document.getElementById('teacherContent');
+            
+            if (questions.length === 0) {
+                content.innerHTML = '<p class="date-info">No questions posted yet.</p>';
+                return;
+            }
+            
+            let html = '';
+            
+            const latestQuestion = questions[questions.length - 1];
+            const answersForQuestion = studentAnswers.filter(a => a.questionId === latestQuestion.id);
+            
+            html += '<div class="question-box">';
+            html += '<div class="date-info">📅 ' + latestQuestion.date + '</div>';
+            html += '<h3>Current Question:</h3>';
+            html += '<p>' + latestQuestion.question + '</p>';
+            html += '<p style="margin-top: 10px; color: #666;"><strong>Responses: ' + answersForQuestion.length + '</strong></p>';
+            html += '</div>';
+            
+            if (answersForQuestion.length > 0) {
+                answersForQuestion.forEach(answer => {
+                    html += '<div class="student-answer">';
+                    html += '<strong>Name: ' + (answer.studentName || 'N/A') + '</strong>';
+                    html += '<br><strong>PIN: ' + answer.studentPin + '</strong>';
+                    html += '<div class="date-info" style="margin: 5px 0;">Submitted: ' + answer.date + '</div>';
+                    html += '<p style="margin-top: 8px;">' + answer.answer + '</p>';
+                    html += '</div>';
+                });
+            } else {
+                html += '<p class="date-info">No student responses yet.</p>';
+            }
+            
+            content.innerHTML = html;
+        }
+
+        if (currentStudent) {
+            displayStudentView();
+        }
+    </script>
+</body>
+</html>
